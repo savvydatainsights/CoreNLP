@@ -1,5 +1,7 @@
 package edu.stanford.nlp.pipeline;
 
+import static edu.stanford.nlp.util.logging.Redwood.Util.log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -9,6 +11,7 @@ import java.util.regex.Pattern;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.util.Pair;
+import jdk.internal.jline.internal.Log;
 
 /**
  * Identifies chunks based on labels that uses IOB-like encoding
@@ -105,13 +108,18 @@ public class LabeledChunkIdentifier {
                                           Class textKey, Class labelKey,
                                           Class tokenChunkKey, Class tokenLabelKey,
                                           Predicate<Pair<CoreLabel, CoreLabel>> checkTokensCompatible) {
-    List<CoreMap> chunks = new ArrayList();
+
+	//log("######################## CHUNK NER ###########################"); 
+	List<CoreMap> chunks = new ArrayList();
     LabelTagType prevTagType = null;
     int tokenBegin = -1;
     for (int i = 0; i < tokens.size(); i++) {
       CoreLabel token = tokens.get(i);
+      //System.out.println(token);
       String label = (String) token.get(labelKey);
+      //System.out.println("Label: " + label);
       LabelTagType curTagType = getTagType(label);
+      //System.out.println(curTagType);
       boolean isCompatible = true;
       if (checkTokensCompatible != null) {
         CoreLabel prev = null;
@@ -146,6 +154,7 @@ public class LabeledChunkIdentifier {
       chunks.add(chunk);
     }
 //    System.out.println("number of chunks " +  chunks.size());
+    //log("######################## CHUNK NER END ###########################");
     return chunks;
   }
 
@@ -270,6 +279,11 @@ public class LabeledChunkIdentifier {
     if (label == null) {
       return new LabelTagType(negLabel, defaultNegTag, negLabel);
     }
+    
+    //log("######################## LABEL ###########################");
+    
+    //log("LABEL: " + label);
+    
     String type;
     String tag;
     Matcher matcher = labelPattern.matcher(label);
@@ -293,6 +307,8 @@ public class LabeledChunkIdentifier {
         tag = defaultPosTag;
       }
     }
+    
+    //log("######################## END LABEL ###########################");
     return new LabelTagType(label, tag, type);
   }
 

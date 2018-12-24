@@ -21,6 +21,8 @@ import edu.stanford.nlp.util.*;
 import edu.stanford.nlp.util.logging.Redwood;
 
 import javax.net.ssl.*;
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import java.io.*;
 import java.lang.ref.SoftReference;
 import java.math.BigInteger;
@@ -852,9 +854,14 @@ public class StanfordCoreNLPServer implements Runnable {
       Future<Annotation> completedAnnotationFuture = null;
       try {
         // Annotate
+    	//log("######################## Pipiline: " + props);  
         StanfordCoreNLP pipeline = mkStanfordCoreNLP(props);
+        //log("######################## Cleaning CACHE ###########################");
+        System.out.println(pipeline.GLOBAL_ANNOTATOR_CACHE);
+        pipeline.GLOBAL_ANNOTATOR_CACHE.clear();
         completedAnnotationFuture = corenlpExecutor.submit(() -> {
-          pipeline.annotate(ann);
+        	//log("######################## Annotators: " + ann);
+        	pipeline.annotate(ann);
           return ann;
         });
         Annotation completedAnnotation;

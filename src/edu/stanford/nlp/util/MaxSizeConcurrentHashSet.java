@@ -72,6 +72,10 @@ public class MaxSizeConcurrentHashSet<E> implements Set<E>, Serializable {
   @Override
   public boolean add(E e) {
     synchronized(this) {
+    	System.out.println("###################### ADICIONANDO " + e + " #########################");
+    	for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+    	    System.out.println(ste);
+    	}
       if (maxSize >= 0 && size() >= maxSize) {
         // can't put new value
         return false;

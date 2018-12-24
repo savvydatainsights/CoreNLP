@@ -203,6 +203,7 @@ public abstract class AbstractSequenceClassifier<IN extends CoreMap> implements 
    * reinitialize them from the flags?
    */
   protected final void reinit() {
+	System.out.println("Passou 13");
     pad.set(CoreAnnotations.AnswerAnnotation.class, flags.backgroundSymbol);
     pad.set(CoreAnnotations.GoldAnswerAnnotation.class, flags.backgroundSymbol);
 
@@ -317,7 +318,12 @@ public abstract class AbstractSequenceClassifier<IN extends CoreMap> implements 
         wi.set(CoreAnnotations.TextAnnotation.class, word.word());
         // wi.setWord(word.word());
       }
+      log.info("###################### PALAVRAS BEGIN " + knownLCWords.size() + " #################################");
+      //log.info(knownLCWords);
+      log.info("###################### PALAVRAS END #################################");
+      
       wi.set(CoreAnnotations.PositionAnnotation.class, Integer.toString(i));
+      System.out.println("Passou 12: " + backgroundSymbol());
       wi.set(CoreAnnotations.AnswerAnnotation.class, backgroundSymbol());
       document.add(wi);
       i++;
@@ -361,6 +367,7 @@ public abstract class AbstractSequenceClassifier<IN extends CoreMap> implements 
         for (IN word : input) {
 
           IN newWord = tokenFactory.makeToken(word);
+          System.out.println("Passou 11");
           newWord.set(CoreAnnotations.AnswerAnnotation.class, classIndex.get(sampleArray[i++]));
           sample.add(newWord);
         }

@@ -21,6 +21,8 @@ import java.util.Arrays;
  **/
 public abstract class EntityCachingAbstractSequencePrior<IN extends CoreMap> implements ListeningSequenceModel {
 
+	
+	
   protected int[] sequence;
   protected final int backgroundSymbol;
   protected final int numClasses;
@@ -29,6 +31,7 @@ public abstract class EntityCachingAbstractSequencePrior<IN extends CoreMap> imp
   protected final List<IN> doc;
 
   public EntityCachingAbstractSequencePrior(String backgroundSymbol, Index<String> classIndex, List<IN> doc) {
+	System.out.println("############# INSTANCIANDO ################### " + this.getClass());
     this.classIndex = classIndex;
     this.backgroundSymbol = classIndex.indexOf(backgroundSymbol);
     this.numClasses = classIndex.size();

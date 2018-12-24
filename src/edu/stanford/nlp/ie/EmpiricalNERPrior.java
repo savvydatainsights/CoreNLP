@@ -80,6 +80,8 @@ public class EmpiricalNERPrior<IN extends CoreMap> extends EntityCachingAbstract
   @SuppressWarnings("StringEquality")
   @Override
   public double scoreOf(int[] sequence) {
+	  
+	log.info("############# SCORING INFO #############");  
     double p = 0.0;
     for (int i = 0; i < entities.length; i++) {
       Entity entity = entities[i];

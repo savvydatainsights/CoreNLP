@@ -51,6 +51,7 @@ public class PresetSequenceClassifier<IN extends CoreMap>  extends AbstractSeque
   @Override
   public List<IN> classify(List<IN> document) {
     for (IN token : document) {
+      System.out.println("Passou 5");
       String presetAnswer = token.get(CoreAnnotations.PresetAnswerAnnotation.class);
       token.set(CoreAnnotations.AnswerAnnotation.class, presetAnswer);
     }

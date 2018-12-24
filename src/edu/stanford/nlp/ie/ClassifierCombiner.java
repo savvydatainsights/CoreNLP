@@ -406,6 +406,7 @@ public class ClassifierCombiner<IN extends CoreMap & HasWord> extends AbstractSe
         if ( ! prevAnswer.equals(auxAnswer) && ! prevAnswer.equals(background)) {
           if (auxTagValid){
             for (INN wi : constituents) {
+            	System.out.println("Passou 10");
               wi.set(CoreAnnotations.AnswerAnnotation.class, prevAnswer);
               if (prevAnswerProb != null)
                 wi.set(CoreAnnotations.AnswerProbAnnotation.class, prevAnswerProb);
@@ -423,6 +424,7 @@ public class ClassifierCombiner<IN extends CoreMap & HasWord> extends AbstractSe
         if (insideAuxTag) {
           if (auxTagValid){
             for (INN wi : constituents) {
+            	System.out.println("Passou 9");
               wi.set(CoreAnnotations.AnswerAnnotation.class, prevAnswer);
               if (prevAnswerProb != null)
                 wi.set(CoreAnnotations.AnswerProbAnnotation.class, prevAnswerProb);
@@ -439,6 +441,7 @@ public class ClassifierCombiner<IN extends CoreMap & HasWord> extends AbstractSe
     // deal with a sequence final auxLabel
     if (auxTagValid){
       for (INN wi : constituents) {
+    	  System.out.println("Passou 8");
         wi.set(CoreAnnotations.AnswerAnnotation.class, prevAnswer);
         if (prevAnswerProb != null)
           wi.set(CoreAnnotations.AnswerProbAnnotation.class, prevAnswerProb);
@@ -464,6 +467,7 @@ public class ClassifierCombiner<IN extends CoreMap & HasWord> extends AbstractSe
     List<IN> output = baseClassifiers.get(0).classifySentence(tokens);
     // classify(List<IN>) is supposed to work in place, so add AnswerAnnotation to tokens!
     for (int i = 0, sz = output.size(); i < sz; i++) {
+    	System.out.println("Passou 7: " +  output.get(i).get(CoreAnnotations.AnswerAnnotation.class));	
       tokens.get(i).set(CoreAnnotations.AnswerAnnotation.class, output.get(i).get(CoreAnnotations.AnswerAnnotation.class));
       tokens.get(i).set(CoreAnnotations.AnswerProbAnnotation.class, output.get(i).get(CoreAnnotations.AnswerProbAnnotation.class));
     }

@@ -59,6 +59,8 @@ public class CRFBiasedClassifier<IN extends CoreMap> extends CRFClassifier<IN>  
   @Override
   public CRFDatum<List<String>, CRFLabel> makeDatum(List<IN> info, int loc, List<FeatureFactory<IN>> featureFactories) {
 
+	  
+	System.out.println("Passou 1");  
     pad.set(CoreAnnotations.AnswerAnnotation.class, flags.backgroundSymbol);
     PaddedList<IN> pInfo = new PaddedList<>(info, pad);
 

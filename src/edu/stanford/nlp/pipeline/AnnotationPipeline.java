@@ -67,6 +67,9 @@ public class AnnotationPipeline implements Annotator {
     Iterator<MutableLong> it = accumulatedTime.iterator();
     Timing t = new Timing();
     for (Annotator annotator : annotators) {
+    	
+      log.info("Executing Annotator: " + annotator.getClass());
+    	
       if (Thread.interrupted()) {  // Allow interrupting
         throw new RuntimeInterruptedException();
       }

@@ -1187,6 +1187,8 @@ public class CRFClassifier<IN extends CoreMap> extends AbstractSequenceClassifie
   }
 
   private SequenceModel getSequenceModel(Triple<int[][][], int[], double[][][]> documentDataAndLabels, List<IN> document) {
+	System.out.println("############################ Criando 2");
+	System.out.println(documentDataAndLabels);
     return labelDictionary == null ? new TestSequenceModel(getCliqueTree(documentDataAndLabels)) :
       new TestSequenceModel(getCliqueTree(documentDataAndLabels), labelDictionary, document);
   }
@@ -1228,6 +1230,7 @@ public class CRFClassifier<IN extends CoreMap> extends AbstractSequenceClassifie
   }
 
   private List<IN> classifyMaxEnt(List<IN> document, SequenceModel model) {
+	
     if (document.isEmpty()) {
       return document;
     }
@@ -1250,14 +1253,18 @@ public class CRFClassifier<IN extends CoreMap> extends AbstractSequenceClassifie
     if (flags.useReverse) {
       Collections.reverse(document);
     }
+    System.out.println("#################################### BEGIN: " + flags.inferenceType + " Model: " + model.getClass()+ " #######################################");
+    System.out.println(document);
     for (int j = 0, docSize = document.size(); j < docSize; j++) {
       IN wi = document.get(j);
-      String guess = classIndex.get(bestSequence[j + windowSize - 1]);
+      String guess = classIndex.get(bestSequence[j + windowSize - 1]);      
       wi.set(CoreAnnotations.AnswerAnnotation.class, guess);
       int index = classIndex.indexOf(guess);
       double guessProb = ((TestSequenceModel) model).labelProb(j, index);
+      System.out.println("Passou 2: " + guess + " - Prob:" + guessProb);
       wi.set(CoreAnnotations.AnswerProbAnnotation.class, guessProb);
     }
+    System.out.println("#################################### END #######################################");
     if (flags.useReverse) {
       Collections.reverse(document);
     }
@@ -1274,6 +1281,8 @@ public class CRFClassifier<IN extends CoreMap> extends AbstractSequenceClassifie
   public List<IN> classifyGibbs(List<IN> document, Triple<int[][][], int[], double[][][]> documentDataAndLabels)
       throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException,
       InstantiationException, IllegalAccessException, InvocationTargetException {
+	  
+	System.out.println("Passou 3");
     // log.info("Testing using Gibbs sampling.");
     List<IN> newDocument = document; // reversed if necessary
     if (flags.useReverse) {

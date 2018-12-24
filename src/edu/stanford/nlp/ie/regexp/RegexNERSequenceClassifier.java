@@ -225,6 +225,8 @@ public class RegexNERSequenceClassifier extends AbstractSequenceClassifier<CoreL
 
   @Override
   public List<CoreLabel> classify(List<CoreLabel> document) {
+	  
+	log.info("############# CLASSIFICANDO ###################");
     // This is pretty deathly slow. It loops over each entry, and then loops over each document token for it.
     // We could gain by compiling into disjunctions patterns for the same class with the same priorities and restrictions?
     for (Entry entry : entries) {

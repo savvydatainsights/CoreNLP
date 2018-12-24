@@ -305,6 +305,9 @@ public class NERCombinerAnnotator extends SentenceAnnotator  {
       docDateAnnotator.annotate(annotation);
 
     super.annotate(annotation);
+    
+    log.info("NERCombinerAnnotator: annotation " + annotation);
+    
     this.ner.finalizeAnnotation(annotation);
 
     if (VERBOSE) {

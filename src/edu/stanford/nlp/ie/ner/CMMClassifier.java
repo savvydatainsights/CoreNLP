@@ -190,7 +190,7 @@ public class CMMClassifier<IN extends CoreLabel> extends AbstractSequenceClassif
     if (flags.useReverse) {
       Collections.reverse(document);
     }
-
+    log.info("############# CLASSIFICANDO 2 ###################");
     if (flags.lowerNewgeneThreshold) {
       // Used to raise recall for task 1B
       log.info("Using NEWGENE threshold: " + flags.newgeneThreshold);
@@ -214,6 +214,7 @@ public class CMMClassifier<IN extends CoreLabel> extends AbstractSequenceClassif
             }
           }
         }
+        System.out.println("Passou 16");
         wordInfo.set(CoreAnnotations.AnswerAnnotation.class, answer);
       }
     } else {
@@ -222,6 +223,7 @@ public class CMMClassifier<IN extends CoreLabel> extends AbstractSequenceClassif
         CoreLabel wordInfo = document.get(i);
         //log.info("XXX answer for " +
         //        wordInfo.word() + " is " + answer);
+        System.out.println("Passou 17");
         wordInfo.set(CoreAnnotations.AnswerAnnotation.class, answer);
       }
       if (flags.justify && (classifier instanceof LinearClassifier)) {
@@ -437,6 +439,7 @@ public class CMMClassifier<IN extends CoreLabel> extends AbstractSequenceClassif
     for (int i = 0, docSize = document.size(); i < docSize; i++) {
       CoreLabel lineInfo = document.get(i);
       String answer = classIndex.get(tags[i]);
+      System.out.println("Passou 15");
       lineInfo.set(CoreAnnotations.AnswerAnnotation.class, answer);
     }
 
@@ -1506,6 +1509,7 @@ public class CMMClassifier<IN extends CoreLabel> extends AbstractSequenceClassif
         }
         answers[i] = tagIndex.get(tags[absPos]);
         CoreLabel li = lineInfos.get(absPos);
+        System.out.println("Passou 14");
         li.set(CoreAnnotations.AnswerAnnotation.class, answers[i]);
         if (i < leftWindow()) {
           pre[i] = answers[i];

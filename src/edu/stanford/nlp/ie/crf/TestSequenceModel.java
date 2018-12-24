@@ -23,10 +23,12 @@ public class TestSequenceModel implements SequenceModel {
 
   public TestSequenceModel(CRFCliqueTree<? extends CharSequence> cliqueTree) {
     this(cliqueTree, null, null);
+    System.out.println("#################  NEW INSTANCE 1 ############## " + cliqueTree.getNumValues()); 
   }
 
   public TestSequenceModel(CRFCliqueTree<? extends CharSequence> cliqueTree,
       LabelDictionary labelDictionary, List<? extends CoreMap> document) {
+	  System.out.println("#################  NEW INSTANCE 2 ############## " + cliqueTree.getNumValues()); 
     // this.factorTables = factorTables;
     this.cliqueTree = cliqueTree;
     // this.window = factorTables[0].windowSize();

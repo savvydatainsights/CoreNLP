@@ -1,5 +1,7 @@
 package edu.stanford.nlp.pipeline;
 
+import static edu.stanford.nlp.util.logging.Redwood.Util.log;
+
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -8,6 +10,7 @@ import edu.stanford.nlp.ie.KBPRelationExtractor;
 import edu.stanford.nlp.ling.CoreAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.pipeline.LabeledChunkIdentifier.LabelTagType;
 import edu.stanford.nlp.time.TimeAnnotations;
 import edu.stanford.nlp.time.Timex;
 import edu.stanford.nlp.util.*;
@@ -249,15 +252,33 @@ public class EntityMentionsAnnotator implements Annotator {
 
   @Override
   public void annotate(Annotation annotation) {
+	  
+	  
+	//log("######################## Anotate NER ###########################");  
     List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
 
+    
+    
+    
     int sentenceIndex = 0;
     for (CoreMap sentence : sentences) {
       List<CoreLabel> tokens = sentence.get(CoreAnnotations.TokensAnnotation.class);
+      
+    
+      //log("######################## SALGADO ###########################");  
+      for (int i = 0; i < tokens.size(); i++) {
+          CoreLabel token = tokens.get(i);
+         // System.out.println(token);
+          String label = (String) token.get(nerCoreAnnotationClass);
+         // System.out.println("Label: " + label);      
+      }
+      //log("######################## END SALGADO ###########################");  
+      
       Integer annoTokenBegin = sentence.get(CoreAnnotations.TokenBeginAnnotation.class);
       if (annoTokenBegin == null) {
         annoTokenBegin = 0;
       }
+
       List<CoreMap> chunks = chunkIdentifier.getAnnotatedChunks(tokens, annoTokenBegin,
               CoreAnnotations.TextAnnotation.class, nerCoreAnnotationClass, IS_TOKENS_COMPATIBLE);
       sentence.set(mentionsCoreAnnotationClass, chunks);
@@ -267,6 +288,8 @@ public class EntityMentionsAnnotator implements Annotator {
       List<CoreMap> mentions = sentence.get(mentionsCoreAnnotationClass);
       if (mentions != null) {
         for (CoreMap mention : mentions) {
+        	
+          //log.info("####### MENTION: " + mention.toString() + " ######### " + mention.get(nerCoreAnnotationClass));
           List<CoreLabel> mentionTokens = mention.get(CoreAnnotations.TokensAnnotation.class);
           String name = (String) CoreMapAttributeAggregator.FIRST_NON_NIL.aggregate(
                   nerNormalizedCoreAnnotationClass, mentionTokens);
@@ -335,6 +358,11 @@ public class EntityMentionsAnnotator implements Annotator {
     }
 
     annotation.set(mentionsCoreAnnotationClass, allEntityMentions);
+    
+    //log(allEntityMentions);  
+    
+    //log("######################## END Anotate NER ###########################");  
+    
   }
 
   private void addAcronyms(Annotation ann) {
